@@ -1,0 +1,72 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Castr
+providerId: castr-live
+created: '2026-07-11'
+modified: '2026-07-11'
+reconciled: false
+tags:
+- Live Streaming
+- Video Hosting
+- Rate Limiting
+- Quotas
+description: >-
+  Castr does not publish fixed numeric request-rate limits for its REST API in
+  the developer documentation. In practice the operative limits on a Castr
+  account are the plan allowances - number of concurrent streams, number of
+  multistream destinations, upfront (ingest) bandwidth, player (delivery)
+  bandwidth, and video storage - rather than a per-minute API call cap. Sustained
+  streaming and delivery are governed by those plan allowances; exceeding them
+  requires upgrading the plan.
+notes: >-
+  No per-endpoint or per-minute numeric API request limit is documented as of the
+  review date. Clients should implement retry-with-backoff and honor any
+  Retry-After header on 429 responses. Verify plan allowances at
+  https://castr.com/pricing/ and any documented API limits at
+  https://developers.castr.com during reconciliation.
+sources:
+- https://developers.castr.com/docs/getting-started
+- https://castr.com/pricing/
+- https://developers.castr.com/reference/get_v2-live-streams
+responseCodes:
+  throttled: 429
+limits:
+- name: API Requests
+  scope: account
+  metric: requests
+  limit: not published
+  notes: No fixed numeric request-rate limit is documented for the REST API.
+- name: Concurrent Streams
+  scope: account
+  metric: streams
+  limit: per plan
+  notes: Starter 2, Standard 2, Premium 5, Ultra 10, Events 15 (annual plans may add bonus concurrency).
+- name: Multistream Destinations
+  scope: stream
+  metric: destinations
+  limit: per plan
+  notes: Number of simultaneous restream destinations, from 6 (Starter) up to 30 (Ultra/Events).
+- name: Upfront Bandwidth
+  scope: account
+  metric: bytes
+  limit: per plan
+  notes: Ingest/multistream bandwidth allowance per billing period (2.4 TB Starter up to 150 TB Events).
+- name: Player Bandwidth
+  scope: account
+  metric: bytes
+  limit: per plan
+  notes: Viewer-delivery bandwidth allowance per billing period (200 GB Starter up to 10 TB Events).
+- name: Storage
+  scope: account
+  metric: bytes
+  limit: per plan
+  notes: Video hosting storage allowance (100 GB Starter up to 3 TB on top tiers).
+policies:
+- name: Backoff Strategy
+  description: Clients should implement exponential backoff with jitter and honor Retry-After on 429 responses.
+- name: Plan-Bound Quotas
+  description: The effective ceilings are plan concurrency, bandwidth, and storage allowances rather than an API request-rate cap; upgrade the plan to raise them.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

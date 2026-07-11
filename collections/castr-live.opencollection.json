@@ -1,0 +1,77 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Castr API",
+    "version": "1.0",
+    "description": "Documented, self-serve REST API for Castr live streaming, sub-second streams, video hosting/VOD, analytics, and webhooks. Base https://api.castr.com/v2. Token auth via the authorization header. Request/response bodies are honestly modeled from the published reference."
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "apikey": {
+        "key": "authorization",
+        "value": "{{apiToken}}",
+        "in": "header"
+      }
+    },
+    "baseUrl": "https://api.castr.com/v2"
+  },
+  "items": [
+    {
+      "info": { "name": "Live Streams", "type": "folder" },
+      "items": [
+        { "info": { "name": "List live streams", "type": "http" }, "http": { "method": "GET", "url": "https://api.castr.com/v2/live_streams" }, "docs": "Lists the live streams in your account." },
+        { "info": { "name": "Create a new live stream", "type": "http" }, "http": { "method": "POST", "url": "https://api.castr.com/v2/live_streams", "body": { "type": "json", "data": "{\"name\":\"My Stream\",\"enabled\":true}" } }, "docs": "Creates a live stream that ingests RTMP/SRT and can multistream to destinations." },
+        { "info": { "name": "Get a live stream", "type": "http" }, "http": { "method": "GET", "url": "https://api.castr.com/v2/live_streams/:stream_id" }, "docs": "Retrieves a single live stream." },
+        { "info": { "name": "Update a live stream", "type": "http" }, "http": { "method": "PATCH", "url": "https://api.castr.com/v2/live_streams/:stream_id", "body": { "type": "json", "data": "{}" } }, "docs": "Updates a live stream." },
+        { "info": { "name": "Delete a live stream", "type": "http" }, "http": { "method": "DELETE", "url": "https://api.castr.com/v2/live_streams/:stream_id" }, "docs": "Deletes a live stream." },
+        { "info": { "name": "Get stream stats", "type": "http" }, "http": { "method": "GET", "url": "https://api.castr.com/v2/live_streams/:stream_id/stats" }, "docs": "Returns online status, duration, bitrate, codec, resolution, and viewers." },
+        { "info": { "name": "Get live EPG", "type": "http" }, "http": { "method": "GET", "url": "https://api.castr.com/v2/live_streams/:stream_id/epg" }, "docs": "Returns the electronic program guide for a stream." },
+        { "info": { "name": "Add platform destination", "type": "http" }, "http": { "method": "POST", "url": "https://api.castr.com/v2/live_streams/:stream_id/platforms", "body": { "type": "json", "data": "{\"type\":\"custom_rtmp\"}" } }, "docs": "Adds a multistream destination." },
+        { "info": { "name": "Update platform destination", "type": "http" }, "http": { "method": "PATCH", "url": "https://api.castr.com/v2/live_streams/:stream_id/platforms/:platform_id", "body": { "type": "json", "data": "{}" } }, "docs": "Updates a multistream destination." },
+        { "info": { "name": "Delete platform destination", "type": "http" }, "http": { "method": "DELETE", "url": "https://api.castr.com/v2/live_streams/:stream_id/platforms/:platform_id" }, "docs": "Deletes a multistream destination." }
+      ]
+    },
+    {
+      "info": { "name": "Sub-Second Streams", "type": "folder" },
+      "items": [
+        { "info": { "name": "List sub-second streams", "type": "http" }, "http": { "method": "GET", "url": "https://api.castr.com/v2/sub_second_streams" }, "docs": "Lists ultra-low-latency (WebRTC) streams." },
+        { "info": { "name": "Create a sub-second stream", "type": "http" }, "http": { "method": "POST", "url": "https://api.castr.com/v2/sub_second_streams", "body": { "type": "json", "data": "{\"name\":\"Low latency\"}" } }, "docs": "Creates an ultra-low-latency stream." },
+        { "info": { "name": "Get a sub-second stream", "type": "http" }, "http": { "method": "GET", "url": "https://api.castr.com/v2/sub_second_streams/:stream_id" }, "docs": "Retrieves a sub-second stream." },
+        { "info": { "name": "Update a sub-second stream", "type": "http" }, "http": { "method": "PATCH", "url": "https://api.castr.com/v2/sub_second_streams/:stream_id", "body": { "type": "json", "data": "{}" } }, "docs": "Updates a sub-second stream." },
+        { "info": { "name": "Delete a sub-second stream", "type": "http" }, "http": { "method": "DELETE", "url": "https://api.castr.com/v2/sub_second_streams/:stream_id" }, "docs": "Deletes a sub-second stream." }
+      ]
+    },
+    {
+      "info": { "name": "Video Hosting and VOD", "type": "folder" },
+      "items": [
+        { "info": { "name": "List folders", "type": "http" }, "http": { "method": "GET", "url": "https://api.castr.com/v2/videos" }, "docs": "Lists video hosting folders." },
+        { "info": { "name": "Create a folder", "type": "http" }, "http": { "method": "POST", "url": "https://api.castr.com/v2/videos", "body": { "type": "json", "data": "{\"name\":\"My Folder\"}" } }, "docs": "Creates a video hosting folder." },
+        { "info": { "name": "Update a folder", "type": "http" }, "http": { "method": "PATCH", "url": "https://api.castr.com/v2/videos/:folder_id", "body": { "type": "json", "data": "{}" } }, "docs": "Updates a folder." },
+        { "info": { "name": "Delete a folder", "type": "http" }, "http": { "method": "DELETE", "url": "https://api.castr.com/v2/videos/:folder_id" }, "docs": "Deletes a folder." },
+        { "info": { "name": "List contents in folder", "type": "http" }, "http": { "method": "GET", "url": "https://api.castr.com/v2/videos/:folder_id/contents" }, "docs": "Lists videos in a folder." },
+        { "info": { "name": "Delete content in folder", "type": "http" }, "http": { "method": "DELETE", "url": "https://api.castr.com/v2/videos/:folder_id/contents/:content_id" }, "docs": "Deletes a video in a folder." },
+        { "info": { "name": "Create direct upload URL", "type": "http" }, "http": { "method": "POST", "url": "https://api.castr.com/v2/videos/:folder_id/uploads", "body": { "type": "json", "data": "{}" } }, "docs": "Creates a direct upload URL for a VOD video." },
+        { "info": { "name": "Get temporary recordings", "type": "http" }, "http": { "method": "GET", "url": "https://api.castr.com/v2/live_streams/:stream_id/temporary_recordings" }, "docs": "Lists temporary cloud recordings of a stream." },
+        { "info": { "name": "Convert live to VOD", "type": "http" }, "http": { "method": "POST", "url": "https://api.castr.com/v2/live_streams/:stream_id/temporary_recordings/:recording_id" }, "docs": "Converts a temporary recording to a permanent VOD asset." },
+        { "info": { "name": "Get live-to-VOD recordings", "type": "http" }, "http": { "method": "GET", "url": "https://api.castr.com/v2/live_streams/:stream_id/recordings" }, "docs": "Lists permanent VOD recordings from a stream." }
+      ]
+    },
+    {
+      "info": { "name": "Analytics and Activity", "type": "folder" },
+      "items": [
+        { "info": { "name": "Get stream activity logs", "type": "http" }, "http": { "method": "GET", "url": "https://api.castr.com/v2/activity_logs/stream/:stream_id" }, "docs": "Retrieves activity logs for a stream." },
+        { "info": { "name": "Get stream activity events", "type": "http" }, "http": { "method": "GET", "url": "https://api.castr.com/v2/activity_events/stream/:stream_id" }, "docs": "Retrieves activity events for a stream." }
+      ]
+    },
+    {
+      "info": { "name": "Webhooks", "type": "folder" },
+      "items": [
+        { "info": { "name": "Get webhook endpoints", "type": "http" }, "http": { "method": "GET", "url": "https://api.castr.com/v2/webhook_endpoints" }, "docs": "Lists webhook endpoints." },
+        { "info": { "name": "Create webhook endpoint", "type": "http" }, "http": { "method": "POST", "url": "https://api.castr.com/v2/webhook_endpoints", "body": { "type": "json", "data": "{\"url\":\"https://example.com/hook\"}" } }, "docs": "Creates a webhook endpoint." },
+        { "info": { "name": "Update webhook endpoint", "type": "http" }, "http": { "method": "PATCH", "url": "https://api.castr.com/v2/webhook_endpoints/:webhook_id", "body": { "type": "json", "data": "{}" } }, "docs": "Updates a webhook endpoint." },
+        { "info": { "name": "Delete webhook endpoint", "type": "http" }, "http": { "method": "DELETE", "url": "https://api.castr.com/v2/webhook_endpoints/:webhook_id" }, "docs": "Deletes a webhook endpoint." }
+      ]
+    }
+  ]
+}

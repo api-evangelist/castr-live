@@ -1,0 +1,146 @@
+aid: castr-live
+name: Castr
+review:
+  question: Does Castr expose a documented public WebSocket API?
+  answer: false
+  date: '2026-07-11'
+  reviewer: API Evangelist
+  asyncapiSpecCreated: false
+  asyncapiScopeNote: |
+    No AsyncAPI document was authored. Castr's own documented public API surface
+    (https://api.castr.com/v2) is request/response REST over HTTPS, authenticated
+    with an API token in an authorization header. Castr's realtime/streaming media
+    is carried by media transports, not by a client-facing WebSocket API: streams
+    are ingested over RTMP or SRT, delivered to viewers over HLS (and WebRTC for
+    the sub-second/low-latency product), and multistreamed onward over RTMP to
+    third-party destinations. RTMP, SRT, HLS, and the internal WebRTC media path
+    are media protocols, not a documented public WebSocket (ws://) API that a
+    developer subscribes to for messages, so there is nothing to model as
+    AsyncAPI on Castr's own API.
+findings:
+  summary: |
+    Castr does not publish a documented public WebSocket API. Castr is a live
+    video streaming, multistreaming, and video-hosting (VOD) platform. It exposes
+    a documented, self-serve REST API at base https://api.castr.com/v2,
+    authenticated with an API token issued from the account settings (the API
+    section under manage/settings) and sent in an authorization header. The API
+    is pure request/response REST over HTTPS covering live streams and their
+    multistream platform destinations, sub-second (WebRTC) streams, video hosting
+    folders and uploads, live-to-VOD recordings, activity logs/events and stream
+    stats, and webhook endpoints. Push-style delivery of events to developers is
+    offered through outbound HTTP webhooks (webhook endpoints), not a WebSocket.
+    No realtime, bidirectional, or subscribe-style WebSocket (ws:// or wss://)
+    endpoint is documented on Castr's own API.
+  accessModel: |
+    Public and self-serve. Anyone can create a Castr account, obtain an API token
+    from the settings API section, and call the documented REST API - no sales
+    contact or partner gating is required to reach the API reference or to get a
+    token. API access is available on paid plans (Castr offers a free trial);
+    concurrency, bandwidth, and storage scale with the subscribed plan rather
+    than the API being locked behind an enterprise-only tier.
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://api.castr.com/v2
+      documented: true
+      note: Documented public API. Token auth via an authorization header. Request/response only.
+    - protocol: Webhook
+      scheme: https
+      documented: true
+      note: Outbound HTTP webhooks via /v2/webhook_endpoints. Castr POSTs events to your URL - server-to-endpoint HTTP, not WebSocket.
+    - protocol: RTMP
+      scheme: rtmp
+      documented: true
+      note: Stream ingest and multistream/restream to destinations. Media transport, not a WebSocket API.
+    - protocol: SRT
+      scheme: srt
+      documented: true
+      note: Alternative low-latency stream ingest. Media transport, not a WebSocket API.
+    - protocol: HLS
+      scheme: https
+      documented: true
+      note: Viewer-side delivery of live and VOD playback. Media transport, not a WebSocket API.
+    - protocol: WebRTC
+      scheme: https
+      documented: true
+      note: Underlying media transport for the sub-second (ultra-low-latency) streaming product. Internal media path, not a documented public WebSocket API.
+    - protocol: WebSocket
+      scheme: wss
+      documented: false
+      note: No public WebSocket (ws:// or wss://) API is documented anywhere in Castr's API reference as of the review date.
+  endpointsModeled: true
+  endpointsModeledNote: |
+    Endpoint paths, methods, and resource groupings below are taken from Castr's
+    published developer reference and its machine index (developers.castr.com,
+    including llms.txt). The request/response JSON schemas in the accompanying
+    OpenAPI are honestly modeled from the documentation rather than copied from a
+    Castr-published OpenAPI file, and property-level detail should be verified
+    against the live reference. Castr uses snake_case resource paths under /v2
+    (confirmed by the live_streams reference and a published curl example).
+  endpointsConfirmedRest:
+    - GET    https://api.castr.com/v2/live_streams
+    - POST   https://api.castr.com/v2/live_streams
+    - GET    https://api.castr.com/v2/live_streams/{stream_id}
+    - PATCH  https://api.castr.com/v2/live_streams/{stream_id}
+    - DELETE https://api.castr.com/v2/live_streams/{stream_id}
+    - GET    https://api.castr.com/v2/live_streams/{stream_id}/stats
+    - GET    https://api.castr.com/v2/live_streams/{stream_id}/epg
+    - POST   https://api.castr.com/v2/live_streams/{stream_id}/platforms
+    - PATCH  https://api.castr.com/v2/live_streams/{stream_id}/platforms/{platform_id}
+    - DELETE https://api.castr.com/v2/live_streams/{stream_id}/platforms/{platform_id}
+    - GET    https://api.castr.com/v2/live_streams/{stream_id}/temporary_recordings
+    - POST   https://api.castr.com/v2/live_streams/{stream_id}/temporary_recordings/{recording_id}
+    - GET    https://api.castr.com/v2/live_streams/{stream_id}/recordings
+    - GET    https://api.castr.com/v2/sub_second_streams
+    - POST   https://api.castr.com/v2/sub_second_streams
+    - GET    https://api.castr.com/v2/sub_second_streams/{stream_id}
+    - PATCH  https://api.castr.com/v2/sub_second_streams/{stream_id}
+    - DELETE https://api.castr.com/v2/sub_second_streams/{stream_id}
+    - GET    https://api.castr.com/v2/videos
+    - POST   https://api.castr.com/v2/videos
+    - PATCH  https://api.castr.com/v2/videos/{folder_id}
+    - DELETE https://api.castr.com/v2/videos/{folder_id}
+    - GET    https://api.castr.com/v2/videos/{folder_id}/contents
+    - POST   https://api.castr.com/v2/videos/{folder_id}/uploads
+    - DELETE https://api.castr.com/v2/videos/{folder_id}/contents/{content_id}
+    - GET    https://api.castr.com/v2/activity_logs/stream/{stream_id}
+    - GET    https://api.castr.com/v2/activity_events/stream/{stream_id}
+    - GET    https://api.castr.com/v2/webhook_endpoints
+    - POST   https://api.castr.com/v2/webhook_endpoints
+    - PATCH  https://api.castr.com/v2/webhook_endpoints/{webhook_id}
+    - DELETE https://api.castr.com/v2/webhook_endpoints/{webhook_id}
+sources:
+  - url: https://developers.castr.com/docs/getting-started
+    type: Documentation
+    note: Getting started, account/token acquisition, RESTful JSON API over HTTPS.
+  - url: https://developers.castr.com/reference/get_v2-live-streams
+    type: APIReference
+    note: Live Streams reference; confirms base https://api.castr.com/v2 and the live_streams path.
+  - url: https://developers.castr.com/llms.txt
+    type: MachineIndex
+    note: AI/agent index of all doc and API-reference pages, including the OpenAPI endpoint list used to enumerate resources.
+  - url: https://developers.castr.com/docs/create-livestream
+    type: Documentation
+    note: Curl example showing POST https://api.castr.com/v2/live_streams with an authorization header.
+  - url: https://developers.castr.com/docs/create-sub-second-streams
+    type: Documentation
+    note: Sub-second (WebRTC low-latency) streams.
+  - url: https://developers.castr.com/docs/record-your-livestream
+    type: Documentation
+    note: Recording and Live-to-VOD conversion.
+  - url: https://castr.com/pricing/
+    type: Pricing
+    note: Published subscription tiers (Starter/Standard/Premium/Ultra/Events) with concurrency, bandwidth, and storage.
+  - url: https://castr.com/live-video-api/
+    type: Marketing
+    note: Live video streaming API overview page.
+actions:
+  asyncapiPath: null
+  apisYmlUpdated: true
+  reason: |
+    No WebSocket protocol surface exists on Castr's own public API. Castr's API
+    is request/response REST (https://api.castr.com/v2), and push-style event
+    delivery to developers is via outbound HTTP webhooks rather than a WebSocket.
+    The realtime media (RTMP/SRT ingest, HLS/WebRTC delivery, RTMP restreaming)
+    are media transports, not a subscribe-style WebSocket API, so no AsyncAPI
+    document was created.

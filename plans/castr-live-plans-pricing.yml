@@ -1,0 +1,210 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Castr
+providerId: castr-live
+created: '2026-07-11'
+modified: '2026-07-11'
+reconciled: false
+tags:
+- Live Streaming
+- Multistreaming
+- Video Hosting
+- VOD
+- Plans
+- Pricing
+description: >-
+  Castr sells subscription plans that bundle the platform and API access; the
+  same documented REST API (https://api.castr.com/v2) is available on paid plans,
+  and a free trial is offered. Plans are differentiated by concurrent streams,
+  number of multistream destinations, upfront (ingest) bandwidth, player
+  (delivery) bandwidth, and video storage rather than by per-API-call fees. Prices
+  below are the annual-billing monthly-equivalent figures published on the Castr
+  pricing page (annual billing saves up to ~20% versus monthly and can add bonus
+  concurrent streams). Values were captured on the created date and should be
+  re-verified on the pricing page.
+notes: >-
+  Castr does not price the API separately - API usage is included with a plan and
+  bounded by that plan's concurrency, bandwidth, and storage allowances. Monthly
+  (non-annual) billing is higher than the figures shown. Verify current tiers,
+  allowances, and any add-ons at https://castr.com/pricing/ during reconciliation.
+sources:
+- https://castr.com/pricing/
+- https://castr.com/live-video-api/
+- https://developers.castr.com/docs/getting-started
+plans:
+- id: castr-starter
+  name: Starter
+  type: paid
+  description: >-
+    Entry plan for getting started with live streaming, multistreaming, recording,
+    and video hosting. Annual-billing monthly-equivalent price.
+  entries:
+  - label: Subscription
+    name: starter_subscription
+    type: flat
+    metric: subscription
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: '16.67'
+    currency: USD
+    userMultiplied: false
+  elements:
+  - name: Concurrent Streams
+    note: '2'
+  - name: Multistream Destinations
+    note: '6'
+  - name: Upfront Bandwidth
+    note: 2.4 TB
+  - name: Player Bandwidth
+    note: 200 GB
+  - name: Storage
+    note: 100 GB
+  - name: API Access
+  - name: Cloud Recording
+- id: castr-standard
+  name: Standard
+  type: paid
+  description: >-
+    Mid tier with more destinations, bandwidth, and storage. Annual-billing
+    monthly-equivalent price.
+  entries:
+  - label: Subscription
+    name: standard_subscription
+    type: flat
+    metric: subscription
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: '41.67'
+    currency: USD
+    userMultiplied: false
+  elements:
+  - name: Concurrent Streams
+    note: '2'
+  - name: Multistream Destinations
+    note: '10'
+  - name: Upfront Bandwidth
+    note: 6 TB
+  - name: Player Bandwidth
+    note: 500 GB
+  - name: Storage
+    note: 200 GB
+  - name: API Access
+- id: castr-premium
+  name: Premium
+  type: paid
+  description: >-
+    Popular higher-volume plan with more concurrency and much larger bandwidth
+    and storage. Annual-billing monthly-equivalent price.
+  entries:
+  - label: Subscription
+    name: premium_subscription
+    type: flat
+    metric: subscription
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: '166.67'
+    currency: USD
+    userMultiplied: false
+  elements:
+  - name: Concurrent Streams
+    note: '5'
+  - name: Multistream Destinations
+    note: '20'
+  - name: Upfront Bandwidth
+    note: 36 TB
+  - name: Player Bandwidth
+    note: 3 TB
+  - name: Storage
+    note: 2 TB
+  - name: API Access
+- id: castr-ultra
+  name: Ultra
+  type: paid
+  description: >-
+    Top self-serve plan for high-concurrency, high-bandwidth workloads.
+    Annual-billing monthly-equivalent price.
+  entries:
+  - label: Subscription
+    name: ultra_subscription
+    type: flat
+    metric: subscription
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: '291.67'
+    currency: USD
+    userMultiplied: false
+  elements:
+  - name: Concurrent Streams
+    note: '10'
+  - name: Multistream Destinations
+    note: '30'
+  - name: Upfront Bandwidth
+    note: 60 TB
+  - name: Player Bandwidth
+    note: 5 TB
+  - name: Storage
+    note: 3 TB
+  - name: API Access
+- id: castr-events
+  name: Events / OTT
+  type: paid
+  description: >-
+    Highest published tier aimed at large events and OTT app use.
+    Annual-billing monthly-equivalent price.
+  entries:
+  - label: Subscription
+    name: events_subscription
+    type: flat
+    metric: subscription
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: '624.99'
+    currency: USD
+    userMultiplied: false
+  elements:
+  - name: Concurrent Streams
+    note: '15'
+  - name: Multistream Destinations
+    note: '30'
+  - name: Upfront Bandwidth
+    note: 150 TB
+  - name: Player Bandwidth
+    note: 10 TB
+  - name: Storage
+    note: 3 TB
+  - name: API Access
+- id: castr-custom
+  name: Custom / Enterprise
+  type: enterprise
+  description: >-
+    Custom plan available on request for higher volumes, custom trials, and
+    negotiated terms. Contact Castr.
+  entries:
+  - label: Custom Agreement
+    name: custom_agreement
+    type: flat
+    metric: contract
+    limit: -1
+    timeFrame: year
+    geo: global
+    unit: 1
+    price: contact sales
+    userMultiplied: false
+  elements:
+  - name: Custom Concurrency and Bandwidth
+  - name: Custom Trial
+  - name: Negotiated Terms
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

@@ -1,0 +1,77 @@
+{
+  "info": {
+    "name": "Castr API",
+    "description": "Documented, self-serve REST API for Castr live streaming, sub-second streams, video hosting/VOD, analytics, and webhooks. Base https://api.castr.com/v2. Token auth via the authorization header. Request/response bodies are honestly modeled from the published reference.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      { "key": "key", "value": "authorization", "type": "string" },
+      { "key": "value", "value": "{{apiToken}}", "type": "string" },
+      { "key": "in", "value": "header", "type": "string" }
+    ]
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "https://api.castr.com/v2" },
+    { "key": "apiToken", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Live Streams",
+      "item": [
+        { "name": "List live streams", "request": { "method": "GET", "url": "{{baseUrl}}/live_streams" } },
+        { "name": "Create a new live stream", "request": { "method": "POST", "url": "{{baseUrl}}/live_streams", "body": { "mode": "raw", "raw": "{\"name\":\"My Stream\",\"enabled\":true}", "options": { "raw": { "language": "json" } } } } },
+        { "name": "Get a live stream", "request": { "method": "GET", "url": "{{baseUrl}}/live_streams/:stream_id" } },
+        { "name": "Update a live stream", "request": { "method": "PATCH", "url": "{{baseUrl}}/live_streams/:stream_id", "body": { "mode": "raw", "raw": "{}", "options": { "raw": { "language": "json" } } } } },
+        { "name": "Delete a live stream", "request": { "method": "DELETE", "url": "{{baseUrl}}/live_streams/:stream_id" } },
+        { "name": "Get stream stats", "request": { "method": "GET", "url": "{{baseUrl}}/live_streams/:stream_id/stats" } },
+        { "name": "Get live EPG", "request": { "method": "GET", "url": "{{baseUrl}}/live_streams/:stream_id/epg" } },
+        { "name": "Add platform destination", "request": { "method": "POST", "url": "{{baseUrl}}/live_streams/:stream_id/platforms", "body": { "mode": "raw", "raw": "{\"type\":\"custom_rtmp\"}", "options": { "raw": { "language": "json" } } } } },
+        { "name": "Update platform destination", "request": { "method": "PATCH", "url": "{{baseUrl}}/live_streams/:stream_id/platforms/:platform_id", "body": { "mode": "raw", "raw": "{}", "options": { "raw": { "language": "json" } } } } },
+        { "name": "Delete platform destination", "request": { "method": "DELETE", "url": "{{baseUrl}}/live_streams/:stream_id/platforms/:platform_id" } }
+      ]
+    },
+    {
+      "name": "Sub-Second Streams",
+      "item": [
+        { "name": "List sub-second streams", "request": { "method": "GET", "url": "{{baseUrl}}/sub_second_streams" } },
+        { "name": "Create a sub-second stream", "request": { "method": "POST", "url": "{{baseUrl}}/sub_second_streams", "body": { "mode": "raw", "raw": "{\"name\":\"Low latency\"}", "options": { "raw": { "language": "json" } } } } },
+        { "name": "Get a sub-second stream", "request": { "method": "GET", "url": "{{baseUrl}}/sub_second_streams/:stream_id" } },
+        { "name": "Update a sub-second stream", "request": { "method": "PATCH", "url": "{{baseUrl}}/sub_second_streams/:stream_id", "body": { "mode": "raw", "raw": "{}", "options": { "raw": { "language": "json" } } } } },
+        { "name": "Delete a sub-second stream", "request": { "method": "DELETE", "url": "{{baseUrl}}/sub_second_streams/:stream_id" } }
+      ]
+    },
+    {
+      "name": "Video Hosting and VOD",
+      "item": [
+        { "name": "List folders", "request": { "method": "GET", "url": "{{baseUrl}}/videos" } },
+        { "name": "Create a folder", "request": { "method": "POST", "url": "{{baseUrl}}/videos", "body": { "mode": "raw", "raw": "{\"name\":\"My Folder\"}", "options": { "raw": { "language": "json" } } } } },
+        { "name": "Update a folder", "request": { "method": "PATCH", "url": "{{baseUrl}}/videos/:folder_id", "body": { "mode": "raw", "raw": "{}", "options": { "raw": { "language": "json" } } } } },
+        { "name": "Delete a folder", "request": { "method": "DELETE", "url": "{{baseUrl}}/videos/:folder_id" } },
+        { "name": "List contents in folder", "request": { "method": "GET", "url": "{{baseUrl}}/videos/:folder_id/contents" } },
+        { "name": "Delete content in folder", "request": { "method": "DELETE", "url": "{{baseUrl}}/videos/:folder_id/contents/:content_id" } },
+        { "name": "Create direct upload URL", "request": { "method": "POST", "url": "{{baseUrl}}/videos/:folder_id/uploads", "body": { "mode": "raw", "raw": "{}", "options": { "raw": { "language": "json" } } } } },
+        { "name": "Get temporary recordings", "request": { "method": "GET", "url": "{{baseUrl}}/live_streams/:stream_id/temporary_recordings" } },
+        { "name": "Convert live to VOD", "request": { "method": "POST", "url": "{{baseUrl}}/live_streams/:stream_id/temporary_recordings/:recording_id" } },
+        { "name": "Get live-to-VOD recordings", "request": { "method": "GET", "url": "{{baseUrl}}/live_streams/:stream_id/recordings" } }
+      ]
+    },
+    {
+      "name": "Analytics and Activity",
+      "item": [
+        { "name": "Get stream activity logs", "request": { "method": "GET", "url": "{{baseUrl}}/activity_logs/stream/:stream_id" } },
+        { "name": "Get stream activity events", "request": { "method": "GET", "url": "{{baseUrl}}/activity_events/stream/:stream_id" } }
+      ]
+    },
+    {
+      "name": "Webhooks",
+      "item": [
+        { "name": "Get webhook endpoints", "request": { "method": "GET", "url": "{{baseUrl}}/webhook_endpoints" } },
+        { "name": "Create webhook endpoint", "request": { "method": "POST", "url": "{{baseUrl}}/webhook_endpoints", "body": { "mode": "raw", "raw": "{\"url\":\"https://example.com/hook\"}", "options": { "raw": { "language": "json" } } } } },
+        { "name": "Update webhook endpoint", "request": { "method": "PATCH", "url": "{{baseUrl}}/webhook_endpoints/:webhook_id", "body": { "mode": "raw", "raw": "{}", "options": { "raw": { "language": "json" } } } } },
+        { "name": "Delete webhook endpoint", "request": { "method": "DELETE", "url": "{{baseUrl}}/webhook_endpoints/:webhook_id" } }
+      ]
+    }
+  ]
+}
