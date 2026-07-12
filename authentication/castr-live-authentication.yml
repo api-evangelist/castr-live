@@ -1,0 +1,17 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/castr-live-openapi.yml
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+schemes:
+- name: apiToken
+  type: apiKey
+  in: header
+  parameter: authorization
+  description: API token issued from the Castr account settings API section (https://castr.com/app/manage/api),
+    sent in the authorization header.
+  sources:
+  - openapi/castr-live-openapi.yml

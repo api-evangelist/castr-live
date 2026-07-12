@@ -141,6 +141,10 @@ apis:
     push stream and video lifecycle events (online/offline, recording ready,
     upload complete) to your own systems for event-driven integrations.
 common:
+- type: DomainSecurity
+  url: security/castr-live-domain-security.yml
+- type: Authentication
+  url: authentication/castr-live-authentication.yml
 - type: Website
   url: https://castr.com
 - type: LinkedIn
