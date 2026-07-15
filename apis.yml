@@ -141,6 +141,8 @@ apis:
     push stream and video lifecycle events (online/offline, recording ready,
     upload complete) to your own systems for event-driven integrations.
 common:
+- type: AgenticAccess
+  url: agentic-access/castr-live-agentic-access.yml
 - type: DomainSecurity
   url: security/castr-live-domain-security.yml
 - type: Authentication
