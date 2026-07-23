@@ -1,0 +1,314 @@
+openapi: 3.0.3
+info:
+  title: Castr Analytics Live Streams API
+  description: 'Castr is a live video streaming, multistreaming, and video-hosting (VOD) platform. This OpenAPI describes Castr''s documented, self-serve REST API at https://api.castr.com/v2 for managing live streams and their multistream platform destinations, sub-second (WebRTC) streams, video hosting folders and uploads, live-to-VOD recordings, activity logs/events and stream stats, and webhook endpoints. Requests are authenticated with an API token issued from the account settings API section and sent in an authorization header.
+
+
+    Endpoint paths, methods, and resource groupings are taken from Castr''s published developer reference and its machine index (developers.castr.com, including llms.txt). The request/response schemas here are honestly modeled from the documentation rather than copied from a Castr-published OpenAPI file; verify property-level detail against the live reference.'
+  version: '1.0'
+  contact:
+    name: Castr
+    url: https://castr.com
+  x-modeled: true
+servers:
+- url: https://api.castr.com/v2
+  description: Castr production API
+security:
+- apiToken: []
+tags:
+- name: Live Streams
+  description: Live streams and their multistream platform destinations.
+paths:
+  /live_streams:
+    get:
+      operationId: listLiveStreams
+      tags:
+      - Live Streams
+      summary: List live streams
+      description: Lists the live streams in your account.
+      responses:
+        '200':
+          description: A list of live streams.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/LiveStream'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createLiveStream
+      tags:
+      - Live Streams
+      summary: Create a new live stream
+      description: Creates a live stream that ingests an RTMP or SRT source and can multistream to multiple destinations.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LiveStreamCreate'
+      responses:
+        '201':
+          description: The created live stream.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LiveStream'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /live_streams/{stream_id}:
+    parameters:
+    - $ref: '#/components/parameters/StreamId'
+    get:
+      operationId: getLiveStream
+      tags:
+      - Live Streams
+      summary: Get a live stream
+      responses:
+        '200':
+          description: The requested live stream.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LiveStream'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: updateLiveStream
+      tags:
+      - Live Streams
+      summary: Update a live stream
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LiveStreamUpdate'
+      responses:
+        '200':
+          description: The updated live stream.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LiveStream'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteLiveStream
+      tags:
+      - Live Streams
+      summary: Delete a live stream
+      responses:
+        '204':
+          description: The live stream was deleted.
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /live_streams/{stream_id}/epg:
+    parameters:
+    - $ref: '#/components/parameters/StreamId'
+    get:
+      operationId: getLiveStreamEpg
+      tags:
+      - Live Streams
+      summary: Get live EPG
+      description: Returns the electronic program guide (schedule) for a live stream.
+      responses:
+        '200':
+          description: The EPG for the stream.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /live_streams/{stream_id}/platforms:
+    parameters:
+    - $ref: '#/components/parameters/StreamId'
+    post:
+      operationId: addPlatform
+      tags:
+      - Live Streams
+      summary: Add a multistream platform destination
+      description: Adds a destination (YouTube, Facebook, custom RTMP, etc.) that the stream is restreamed to.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlatformCreate'
+      responses:
+        '201':
+          description: The added platform destination.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Platform'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /live_streams/{stream_id}/platforms/{platform_id}:
+    parameters:
+    - $ref: '#/components/parameters/StreamId'
+    - $ref: '#/components/parameters/PlatformId'
+    patch:
+      operationId: updatePlatform
+      tags:
+      - Live Streams
+      summary: Update a platform destination
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlatformCreate'
+      responses:
+        '200':
+          description: The updated platform destination.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Platform'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deletePlatform
+      tags:
+      - Live Streams
+      summary: Delete a platform destination
+      responses:
+        '204':
+          description: The platform destination was deleted.
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  schemas:
+    LiveStreamUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        enabled:
+          type: boolean
+        record:
+          type: boolean
+    LiveStreamCreate:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+        enabled:
+          type: boolean
+        record:
+          type: boolean
+          description: Enable cloud recording of the stream.
+    LiveStream:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        enabled:
+          type: boolean
+        ingest:
+          type: object
+          properties:
+            rtmp_url:
+              type: string
+            srt_url:
+              type: string
+            stream_key:
+              type: string
+        playback:
+          type: object
+          properties:
+            hls_url:
+              type: string
+            embed_url:
+              type: string
+        platforms:
+          type: array
+          items:
+            $ref: '#/components/schemas/Platform'
+        created_at:
+          type: string
+          format: date-time
+    PlatformCreate:
+      type: object
+      required:
+      - type
+      properties:
+        type:
+          type: string
+        name:
+          type: string
+        rtmp_url:
+          type: string
+        stream_key:
+          type: string
+        enabled:
+          type: boolean
+    Platform:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          description: Destination type (e.g. youtube, facebook, custom_rtmp).
+        name:
+          type: string
+        rtmp_url:
+          type: string
+        stream_key:
+          type: string
+        enabled:
+          type: boolean
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+  responses:
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    PlatformId:
+      name: platform_id
+      in: path
+      required: true
+      description: The unique identifier of the platform destination.
+      schema:
+        type: string
+    StreamId:
+      name: stream_id
+      in: path
+      required: true
+      description: The unique identifier of the stream.
+      schema:
+        type: string
+  securitySchemes:
+    apiToken:
+      type: apiKey
+      in: header
+      name: authorization
+      description: API token issued from the Castr account settings API section (https://castr.com/app/manage/api), sent in the authorization header.

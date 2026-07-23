@@ -1,0 +1,354 @@
+openapi: 3.0.3
+info:
+  title: Castr Analytics Video Hosting API
+  description: 'Castr is a live video streaming, multistreaming, and video-hosting (VOD) platform. This OpenAPI describes Castr''s documented, self-serve REST API at https://api.castr.com/v2 for managing live streams and their multistream platform destinations, sub-second (WebRTC) streams, video hosting folders and uploads, live-to-VOD recordings, activity logs/events and stream stats, and webhook endpoints. Requests are authenticated with an API token issued from the account settings API section and sent in an authorization header.
+
+
+    Endpoint paths, methods, and resource groupings are taken from Castr''s published developer reference and its machine index (developers.castr.com, including llms.txt). The request/response schemas here are honestly modeled from the documentation rather than copied from a Castr-published OpenAPI file; verify property-level detail against the live reference.'
+  version: '1.0'
+  contact:
+    name: Castr
+    url: https://castr.com
+  x-modeled: true
+servers:
+- url: https://api.castr.com/v2
+  description: Castr production API
+security:
+- apiToken: []
+tags:
+- name: Video Hosting
+  description: Video hosting folders, uploads, and live-to-VOD recordings.
+paths:
+  /live_streams/{stream_id}/temporary_recordings:
+    parameters:
+    - $ref: '#/components/parameters/StreamId'
+    get:
+      operationId: getTemporaryRecordings
+      tags:
+      - Video Hosting
+      summary: Get temporary recordings
+      description: Lists temporary cloud recordings of a stream (retained for a limited time before conversion to VOD).
+      responses:
+        '200':
+          description: A list of temporary recordings.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Recording'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /live_streams/{stream_id}/temporary_recordings/{recording_id}:
+    parameters:
+    - $ref: '#/components/parameters/StreamId'
+    - $ref: '#/components/parameters/RecordingId'
+    post:
+      operationId: convertLiveToVod
+      tags:
+      - Video Hosting
+      summary: Convert live recording to VOD
+      description: Converts a temporary live-stream recording into a permanent VOD asset (Live-to-VOD).
+      responses:
+        '201':
+          description: The created VOD asset.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Video'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /live_streams/{stream_id}/recordings:
+    parameters:
+    - $ref: '#/components/parameters/StreamId'
+    get:
+      operationId: getLiveToVodRecordings
+      tags:
+      - Video Hosting
+      summary: Get live-to-VOD recordings
+      description: Lists the permanent VOD recordings produced from a stream.
+      responses:
+        '200':
+          description: A list of VOD recordings.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Video'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /videos:
+    get:
+      operationId: listFolders
+      tags:
+      - Video Hosting
+      summary: List folders
+      description: Lists the video hosting folders in your account.
+      responses:
+        '200':
+          description: A list of folders.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Folder'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createFolder
+      tags:
+      - Video Hosting
+      summary: Create a folder
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FolderCreate'
+      responses:
+        '201':
+          description: The created folder.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Folder'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /videos/{folder_id}:
+    parameters:
+    - $ref: '#/components/parameters/FolderId'
+    patch:
+      operationId: updateFolder
+      tags:
+      - Video Hosting
+      summary: Update a folder
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FolderCreate'
+      responses:
+        '200':
+          description: The updated folder.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Folder'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteFolder
+      tags:
+      - Video Hosting
+      summary: Delete a folder
+      responses:
+        '204':
+          description: The folder was deleted.
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /videos/{folder_id}/contents:
+    parameters:
+    - $ref: '#/components/parameters/FolderId'
+    get:
+      operationId: listFolderContents
+      tags:
+      - Video Hosting
+      summary: List contents in a folder
+      responses:
+        '200':
+          description: A list of videos in the folder.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Video'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /videos/{folder_id}/contents/{content_id}:
+    parameters:
+    - $ref: '#/components/parameters/FolderId'
+    - $ref: '#/components/parameters/ContentId'
+    delete:
+      operationId: deleteFolderContent
+      tags:
+      - Video Hosting
+      summary: Delete content in a folder
+      responses:
+        '204':
+          description: The content was deleted.
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /videos/{folder_id}/uploads:
+    parameters:
+    - $ref: '#/components/parameters/FolderId'
+    post:
+      operationId: createDirectUpload
+      tags:
+      - Video Hosting
+      summary: Create a direct upload URL
+      description: Creates a direct upload URL for posting an on-demand video into the folder.
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UploadCreate'
+      responses:
+        '201':
+          description: The created direct upload.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Upload'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  parameters:
+    ContentId:
+      name: content_id
+      in: path
+      required: true
+      description: The unique identifier of the content item.
+      schema:
+        type: string
+    FolderId:
+      name: folder_id
+      in: path
+      required: true
+      description: The unique identifier of the video folder.
+      schema:
+        type: string
+    RecordingId:
+      name: recording_id
+      in: path
+      required: true
+      description: The unique identifier of the temporary recording.
+      schema:
+        type: string
+    StreamId:
+      name: stream_id
+      in: path
+      required: true
+      description: The unique identifier of the stream.
+      schema:
+        type: string
+  responses:
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    FolderCreate:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+    Folder:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        item_count:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+    Upload:
+      type: object
+      properties:
+        id:
+          type: string
+        upload_url:
+          type: string
+          description: Direct URL to PUT/POST the video file to.
+        expires_at:
+          type: string
+          format: date-time
+    Video:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        folder_id:
+          type: string
+        status:
+          type: string
+          description: Processing status (e.g. uploading, processing, ready).
+        duration:
+          type: integer
+        size:
+          type: integer
+        playback:
+          type: object
+          properties:
+            hls_url:
+              type: string
+            embed_url:
+              type: string
+        created_at:
+          type: string
+          format: date-time
+    UploadCreate:
+      type: object
+      properties:
+        name:
+          type: string
+        size:
+          type: integer
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+    Recording:
+      type: object
+      properties:
+        id:
+          type: string
+        stream_id:
+          type: string
+        status:
+          type: string
+        duration:
+          type: integer
+        expires_at:
+          type: string
+          format: date-time
+  securitySchemes:
+    apiToken:
+      type: apiKey
+      in: header
+      name: authorization
+      description: API token issued from the Castr account settings API section (https://castr.com/app/manage/api), sent in the authorization header.

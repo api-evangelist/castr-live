@@ -1,0 +1,159 @@
+openapi: 3.0.3
+info:
+  title: Castr Analytics Webhooks API
+  description: 'Castr is a live video streaming, multistreaming, and video-hosting (VOD) platform. This OpenAPI describes Castr''s documented, self-serve REST API at https://api.castr.com/v2 for managing live streams and their multistream platform destinations, sub-second (WebRTC) streams, video hosting folders and uploads, live-to-VOD recordings, activity logs/events and stream stats, and webhook endpoints. Requests are authenticated with an API token issued from the account settings API section and sent in an authorization header.
+
+
+    Endpoint paths, methods, and resource groupings are taken from Castr''s published developer reference and its machine index (developers.castr.com, including llms.txt). The request/response schemas here are honestly modeled from the documentation rather than copied from a Castr-published OpenAPI file; verify property-level detail against the live reference.'
+  version: '1.0'
+  contact:
+    name: Castr
+    url: https://castr.com
+  x-modeled: true
+servers:
+- url: https://api.castr.com/v2
+  description: Castr production API
+security:
+- apiToken: []
+tags:
+- name: Webhooks
+  description: Webhook endpoints for event delivery.
+paths:
+  /webhook_endpoints:
+    get:
+      operationId: listWebhookEndpoints
+      tags:
+      - Webhooks
+      summary: Get webhook endpoints
+      responses:
+        '200':
+          description: A list of webhook endpoints.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/WebhookEndpoint'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createWebhookEndpoint
+      tags:
+      - Webhooks
+      summary: Create a webhook endpoint
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookEndpointCreate'
+      responses:
+        '201':
+          description: The created webhook endpoint.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookEndpoint'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /webhook_endpoints/{webhook_id}:
+    parameters:
+    - $ref: '#/components/parameters/WebhookId'
+    patch:
+      operationId: updateWebhookEndpoint
+      tags:
+      - Webhooks
+      summary: Update a webhook endpoint
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookEndpointCreate'
+      responses:
+        '200':
+          description: The updated webhook endpoint.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookEndpoint'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteWebhookEndpoint
+      tags:
+      - Webhooks
+      summary: Delete a webhook endpoint
+      responses:
+        '204':
+          description: The webhook endpoint was deleted.
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  responses:
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    WebhookEndpointCreate:
+      type: object
+      required:
+      - url
+      properties:
+        url:
+          type: string
+        events:
+          type: array
+          items:
+            type: string
+        enabled:
+          type: boolean
+    WebhookEndpoint:
+      type: object
+      properties:
+        id:
+          type: string
+        url:
+          type: string
+        events:
+          type: array
+          items:
+            type: string
+        enabled:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+  parameters:
+    WebhookId:
+      name: webhook_id
+      in: path
+      required: true
+      description: The unique identifier of the webhook endpoint.
+      schema:
+        type: string
+  securitySchemes:
+    apiToken:
+      type: apiKey
+      in: header
+      name: authorization
+      description: API token issued from the Castr account settings API section (https://castr.com/app/manage/api), sent in the authorization header.
