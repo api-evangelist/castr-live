@@ -1,0 +1,22 @@
+{
+  "provider": "castr-live",
+  "sources": [
+    "castr-live-analytics-api-openapi.yml",
+    "castr-live-live-streams-api-openapi.yml",
+    "castr-live-sub-second-streams-api-openapi.yml",
+    "castr-live-video-hosting-api-openapi.yml",
+    "castr-live-webhooks-api-openapi.yml"
+  ],
+  "outputs": [
+    "castr-live-analytics-api-openapi.yml",
+    "castr-live-live-streams-api-openapi.yml",
+    "castr-live-sub-second-streams-api-openapi.yml",
+    "castr-live-video-hosting-api-openapi.yml",
+    "castr-live-webhooks-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
