@@ -1,0 +1,113 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Castr Analytics Sub-Second Streams API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "authorization",
+      "value": "{{authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Sub-Second Streams",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List sub-second streams",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.castr.com/v2/sub_second_streams"
+          },
+          "docs": "List sub-second streams"
+        },
+        {
+          "info": {
+            "name": "Create a new sub-second stream",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.castr.com/v2/sub_second_streams",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates an ultra-low-latency (WebRTC) live stream."
+        },
+        {
+          "info": {
+            "name": "Get a sub-second stream",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.castr.com/v2/sub_second_streams/:stream_id",
+            "params": [
+              {
+                "name": "stream_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the stream."
+              }
+            ]
+          },
+          "docs": "Get a sub-second stream"
+        },
+        {
+          "info": {
+            "name": "Update a sub-second stream",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.castr.com/v2/sub_second_streams/:stream_id",
+            "params": [
+              {
+                "name": "stream_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the stream."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a sub-second stream"
+        },
+        {
+          "info": {
+            "name": "Delete a sub-second stream",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.castr.com/v2/sub_second_streams/:stream_id",
+            "params": [
+              {
+                "name": "stream_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the stream."
+              }
+            ]
+          },
+          "docs": "Delete a sub-second stream"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

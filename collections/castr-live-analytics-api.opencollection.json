@@ -1,0 +1,83 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Castr Analytics API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "authorization",
+      "value": "{{authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Analytics",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get stream stats",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.castr.com/v2/live_streams/:stream_id/stats",
+            "params": [
+              {
+                "name": "stream_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the stream."
+              }
+            ]
+          },
+          "docs": "Returns online status, duration, bitrate, codec, resolution, and viewer stats for a stream."
+        },
+        {
+          "info": {
+            "name": "Get stream activity logs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.castr.com/v2/activity_logs/stream/:stream_id",
+            "params": [
+              {
+                "name": "stream_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the stream."
+              }
+            ]
+          },
+          "docs": "Get stream activity logs"
+        },
+        {
+          "info": {
+            "name": "Get stream activity events",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.castr.com/v2/activity_events/stream/:stream_id",
+            "params": [
+              {
+                "name": "stream_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the stream."
+              }
+            ]
+          },
+          "docs": "Get stream activity events"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

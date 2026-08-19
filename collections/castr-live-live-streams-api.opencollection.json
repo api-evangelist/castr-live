@@ -1,0 +1,209 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Castr Analytics Live Streams API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "authorization",
+      "value": "{{authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Live Streams",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List live streams",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.castr.com/v2/live_streams"
+          },
+          "docs": "Lists the live streams in your account."
+        },
+        {
+          "info": {
+            "name": "Create a new live stream",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.castr.com/v2/live_streams",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a live stream that ingests an RTMP or SRT source and can multistream to multiple destinations."
+        },
+        {
+          "info": {
+            "name": "Get a live stream",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.castr.com/v2/live_streams/:stream_id",
+            "params": [
+              {
+                "name": "stream_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the stream."
+              }
+            ]
+          },
+          "docs": "Get a live stream"
+        },
+        {
+          "info": {
+            "name": "Update a live stream",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.castr.com/v2/live_streams/:stream_id",
+            "params": [
+              {
+                "name": "stream_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the stream."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a live stream"
+        },
+        {
+          "info": {
+            "name": "Delete a live stream",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.castr.com/v2/live_streams/:stream_id",
+            "params": [
+              {
+                "name": "stream_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the stream."
+              }
+            ]
+          },
+          "docs": "Delete a live stream"
+        },
+        {
+          "info": {
+            "name": "Get live EPG",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.castr.com/v2/live_streams/:stream_id/epg",
+            "params": [
+              {
+                "name": "stream_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the stream."
+              }
+            ]
+          },
+          "docs": "Returns the electronic program guide (schedule) for a live stream."
+        },
+        {
+          "info": {
+            "name": "Add a multistream platform destination",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.castr.com/v2/live_streams/:stream_id/platforms",
+            "params": [
+              {
+                "name": "stream_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the stream."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Adds a destination (YouTube, Facebook, custom RTMP, etc.) that the stream is restreamed to."
+        },
+        {
+          "info": {
+            "name": "Update a platform destination",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.castr.com/v2/live_streams/:stream_id/platforms/:platform_id",
+            "params": [
+              {
+                "name": "stream_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the stream."
+              },
+              {
+                "name": "platform_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the platform destination."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a platform destination"
+        },
+        {
+          "info": {
+            "name": "Delete a platform destination",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.castr.com/v2/live_streams/:stream_id/platforms/:platform_id",
+            "params": [
+              {
+                "name": "stream_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the stream."
+              },
+              {
+                "name": "platform_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the platform destination."
+              }
+            ]
+          },
+          "docs": "Delete a platform destination"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

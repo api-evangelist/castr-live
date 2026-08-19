@@ -1,0 +1,224 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Castr Analytics Video Hosting API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "authorization",
+      "value": "{{authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Video Hosting",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get temporary recordings",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.castr.com/v2/live_streams/:stream_id/temporary_recordings",
+            "params": [
+              {
+                "name": "stream_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the stream."
+              }
+            ]
+          },
+          "docs": "Lists temporary cloud recordings of a stream (retained for a limited time before conversion to VOD)."
+        },
+        {
+          "info": {
+            "name": "Convert live recording to VOD",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.castr.com/v2/live_streams/:stream_id/temporary_recordings/:recording_id",
+            "params": [
+              {
+                "name": "stream_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the stream."
+              },
+              {
+                "name": "recording_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the temporary recording."
+              }
+            ]
+          },
+          "docs": "Converts a temporary live-stream recording into a permanent VOD asset (Live-to-VOD)."
+        },
+        {
+          "info": {
+            "name": "Get live-to-VOD recordings",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.castr.com/v2/live_streams/:stream_id/recordings",
+            "params": [
+              {
+                "name": "stream_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the stream."
+              }
+            ]
+          },
+          "docs": "Lists the permanent VOD recordings produced from a stream."
+        },
+        {
+          "info": {
+            "name": "List folders",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.castr.com/v2/videos"
+          },
+          "docs": "Lists the video hosting folders in your account."
+        },
+        {
+          "info": {
+            "name": "Create a folder",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.castr.com/v2/videos",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a folder"
+        },
+        {
+          "info": {
+            "name": "Update a folder",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.castr.com/v2/videos/:folder_id",
+            "params": [
+              {
+                "name": "folder_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the video folder."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a folder"
+        },
+        {
+          "info": {
+            "name": "Delete a folder",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.castr.com/v2/videos/:folder_id",
+            "params": [
+              {
+                "name": "folder_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the video folder."
+              }
+            ]
+          },
+          "docs": "Delete a folder"
+        },
+        {
+          "info": {
+            "name": "List contents in a folder",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.castr.com/v2/videos/:folder_id/contents",
+            "params": [
+              {
+                "name": "folder_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the video folder."
+              }
+            ]
+          },
+          "docs": "List contents in a folder"
+        },
+        {
+          "info": {
+            "name": "Delete content in a folder",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.castr.com/v2/videos/:folder_id/contents/:content_id",
+            "params": [
+              {
+                "name": "folder_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the video folder."
+              },
+              {
+                "name": "content_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the content item."
+              }
+            ]
+          },
+          "docs": "Delete content in a folder"
+        },
+        {
+          "info": {
+            "name": "Create a direct upload URL",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.castr.com/v2/videos/:folder_id/uploads",
+            "params": [
+              {
+                "name": "folder_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the video folder."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a direct upload URL for posting an on-demand video into the folder."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
