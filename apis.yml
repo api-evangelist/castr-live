@@ -35,6 +35,17 @@ tags:
 - Sub-Second Streaming
 - WebRTC
 - Analytics
+- Webhook
+tags_raw:
+- Live Streaming
+- Multistreaming
+- Video Hosting
+- VOD
+- Video
+- Restreaming
+- Sub-Second Streaming
+- WebRTC
+- Analytics
 - Webhooks
 created: '2026-07-11'
 modified: '2026-07-11'
@@ -142,6 +153,8 @@ apis:
   humanURL: https://developers.castr.com/reference/get_v2-live-streams
   baseURL: https://api.castr.com/v2
   tags:
+  - Webhook
+  tags_raw:
   - Webhooks
   properties:
   - type: OpenAPI
