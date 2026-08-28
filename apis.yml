@@ -11,6 +11,18 @@ description: Castr is a live video streaming and multistreaming platform with vi
   video hosting folders and uploads, live-to-VOD recordings, activity/analytics
   logs and events, and webhook endpoints. Requests are authenticated with an API
   token issued from the account settings and sent in an authorization header.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: paid
   onboarding: self-serve
