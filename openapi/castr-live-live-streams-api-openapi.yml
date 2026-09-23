@@ -1,10 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Castr Analytics Live Streams API
-  description: 'Castr is a live video streaming, multistreaming, and video-hosting (VOD) platform. This OpenAPI describes Castr''s documented, self-serve REST API at https://api.castr.com/v2 for managing live streams and their multistream platform destinations, sub-second (WebRTC) streams, video hosting folders and uploads, live-to-VOD recordings, activity logs/events and stream stats, and webhook endpoints. Requests are authenticated with an API token issued from the account settings API section and sent in an authorization header.
-
-
-    Endpoint paths, methods, and resource groupings are taken from Castr''s published developer reference and its machine index (developers.castr.com, including llms.txt). The request/response schemas here are honestly modeled from the documentation rather than copied from a Castr-published OpenAPI file; verify property-level detail against the live reference.'
+  title: Castr Live Streams API
+  description: Castr is a live video streaming, multistreaming, and video-hosting (VOD) platform.
   version: '1.0'
   contact:
     name: Castr
@@ -187,15 +184,6 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
-    LiveStreamUpdate:
-      type: object
-      properties:
-        name:
-          type: string
-        enabled:
-          type: boolean
-        record:
-          type: boolean
     LiveStreamCreate:
       type: object
       required:
@@ -208,6 +196,13 @@ components:
         record:
           type: boolean
           description: Enable cloud recording of the stream.
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
     LiveStream:
       type: object
       properties:
@@ -240,21 +235,6 @@ components:
         created_at:
           type: string
           format: date-time
-    PlatformCreate:
-      type: object
-      required:
-      - type
-      properties:
-        type:
-          type: string
-        name:
-          type: string
-        rtmp_url:
-          type: string
-        stream_key:
-          type: string
-        enabled:
-          type: boolean
     Platform:
       type: object
       properties:
@@ -271,13 +251,45 @@ components:
           type: string
         enabled:
           type: boolean
-    Error:
+    PlatformCreate:
+      type: object
+      required:
+      - type
+      properties:
+        type:
+          type: string
+        name:
+          type: string
+        rtmp_url:
+          type: string
+        stream_key:
+          type: string
+        enabled:
+          type: boolean
+    LiveStreamUpdate:
       type: object
       properties:
-        error:
+        name:
           type: string
-        message:
-          type: string
+        enabled:
+          type: boolean
+        record:
+          type: boolean
+  parameters:
+    StreamId:
+      name: stream_id
+      in: path
+      required: true
+      description: The unique identifier of the stream.
+      schema:
+        type: string
+    PlatformId:
+      name: platform_id
+      in: path
+      required: true
+      description: The unique identifier of the platform destination.
+      schema:
+        type: string
   responses:
     NotFound:
       description: The requested resource was not found.
@@ -291,21 +303,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-  parameters:
-    PlatformId:
-      name: platform_id
-      in: path
-      required: true
-      description: The unique identifier of the platform destination.
-      schema:
-        type: string
-    StreamId:
-      name: stream_id
-      in: path
-      required: true
-      description: The unique identifier of the stream.
-      schema:
-        type: string
   securitySchemes:
     apiToken:
       type: apiKey

@@ -1,10 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Castr Analytics Video Hosting API
-  description: 'Castr is a live video streaming, multistreaming, and video-hosting (VOD) platform. This OpenAPI describes Castr''s documented, self-serve REST API at https://api.castr.com/v2 for managing live streams and their multistream platform destinations, sub-second (WebRTC) streams, video hosting folders and uploads, live-to-VOD recordings, activity logs/events and stream stats, and webhook endpoints. Requests are authenticated with an API token issued from the account settings API section and sent in an authorization header.
-
-
-    Endpoint paths, methods, and resource groupings are taken from Castr''s published developer reference and its machine index (developers.castr.com, including llms.txt). The request/response schemas here are honestly modeled from the documentation rather than copied from a Castr-published OpenAPI file; verify property-level detail against the live reference.'
+  title: Castr Video Hosting API
+  description: Castr is a live video streaming, multistreaming, and video-hosting (VOD) platform.
   version: '1.0'
   contact:
     name: Castr
@@ -219,49 +216,28 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  parameters:
-    ContentId:
-      name: content_id
-      in: path
-      required: true
-      description: The unique identifier of the content item.
-      schema:
-        type: string
-    FolderId:
-      name: folder_id
-      in: path
-      required: true
-      description: The unique identifier of the video folder.
-      schema:
-        type: string
-    RecordingId:
-      name: recording_id
-      in: path
-      required: true
-      description: The unique identifier of the temporary recording.
-      schema:
-        type: string
-    StreamId:
-      name: stream_id
-      in: path
-      required: true
-      description: The unique identifier of the stream.
-      schema:
-        type: string
-  responses:
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid API token.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
+    Recording:
+      type: object
+      properties:
+        id:
+          type: string
+        stream_id:
+          type: string
+        status:
+          type: string
+        duration:
+          type: integer
+        expires_at:
+          type: string
+          format: date-time
+    UploadCreate:
+      type: object
+      properties:
+        name:
+          type: string
+        size:
+          type: integer
     FolderCreate:
       type: object
       required:
@@ -269,6 +245,24 @@ components:
       properties:
         name:
           type: string
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+    Upload:
+      type: object
+      properties:
+        id:
+          type: string
+        upload_url:
+          type: string
+          description: Direct URL to PUT/POST the video file to.
+        expires_at:
+          type: string
+          format: date-time
     Folder:
       type: object
       properties:
@@ -279,17 +273,6 @@ components:
         item_count:
           type: integer
         created_at:
-          type: string
-          format: date-time
-    Upload:
-      type: object
-      properties:
-        id:
-          type: string
-        upload_url:
-          type: string
-          description: Direct URL to PUT/POST the video file to.
-        expires_at:
           type: string
           format: date-time
     Video:
@@ -318,34 +301,48 @@ components:
         created_at:
           type: string
           format: date-time
-    UploadCreate:
-      type: object
-      properties:
-        name:
-          type: string
-        size:
-          type: integer
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-        message:
-          type: string
-    Recording:
-      type: object
-      properties:
-        id:
-          type: string
-        stream_id:
-          type: string
-        status:
-          type: string
-        duration:
-          type: integer
-        expires_at:
-          type: string
-          format: date-time
+  parameters:
+    StreamId:
+      name: stream_id
+      in: path
+      required: true
+      description: The unique identifier of the stream.
+      schema:
+        type: string
+    RecordingId:
+      name: recording_id
+      in: path
+      required: true
+      description: The unique identifier of the temporary recording.
+      schema:
+        type: string
+    ContentId:
+      name: content_id
+      in: path
+      required: true
+      description: The unique identifier of the content item.
+      schema:
+        type: string
+    FolderId:
+      name: folder_id
+      in: path
+      required: true
+      description: The unique identifier of the video folder.
+      schema:
+        type: string
+  responses:
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     apiToken:
       type: apiKey

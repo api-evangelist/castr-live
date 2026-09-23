@@ -1,10 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
   title: Castr Analytics API
-  description: 'Castr is a live video streaming, multistreaming, and video-hosting (VOD) platform. This OpenAPI describes Castr''s documented, self-serve REST API at https://api.castr.com/v2 for managing live streams and their multistream platform destinations, sub-second (WebRTC) streams, video hosting folders and uploads, live-to-VOD recordings, activity logs/events and stream stats, and webhook endpoints. Requests are authenticated with an API token issued from the account settings API section and sent in an authorization header.
-
-
-    Endpoint paths, methods, and resource groupings are taken from Castr''s published developer reference and its machine index (developers.castr.com, including llms.txt). The request/response schemas here are honestly modeled from the documentation rather than copied from a Castr-published OpenAPI file; verify property-level detail against the live reference.'
+  description: Castr is a live video streaming, multistreaming, and video-hosting (VOD) platform.
   version: '1.0'
   contact:
     name: Castr
@@ -82,26 +79,22 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  responses:
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+  parameters:
+    StreamId:
+      name: stream_id
+      in: path
+      required: true
+      description: The unique identifier of the stream.
+      schema:
+        type: string
   schemas:
-    ActivityEntry:
+    Error:
       type: object
       properties:
-        id:
-          type: string
-        type:
+        error:
           type: string
         message:
           type: string
-        timestamp:
-          type: string
-          format: date-time
     StreamStats:
       type: object
       properties:
@@ -118,21 +111,25 @@ components:
           type: string
         viewers:
           type: integer
-    Error:
+    ActivityEntry:
       type: object
       properties:
-        error:
+        id:
+          type: string
+        type:
           type: string
         message:
           type: string
-  parameters:
-    StreamId:
-      name: stream_id
-      in: path
-      required: true
-      description: The unique identifier of the stream.
-      schema:
-        type: string
+        timestamp:
+          type: string
+          format: date-time
+  responses:
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     apiToken:
       type: apiKey
