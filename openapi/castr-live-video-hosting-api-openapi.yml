@@ -216,42 +216,36 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  parameters:
+    FolderId:
+      name: folder_id
+      in: path
+      required: true
+      description: The unique identifier of the video folder.
+      schema:
+        type: string
+    StreamId:
+      name: stream_id
+      in: path
+      required: true
+      description: The unique identifier of the stream.
+      schema:
+        type: string
+    RecordingId:
+      name: recording_id
+      in: path
+      required: true
+      description: The unique identifier of the temporary recording.
+      schema:
+        type: string
+    ContentId:
+      name: content_id
+      in: path
+      required: true
+      description: The unique identifier of the content item.
+      schema:
+        type: string
   schemas:
-    Recording:
-      type: object
-      properties:
-        id:
-          type: string
-        stream_id:
-          type: string
-        status:
-          type: string
-        duration:
-          type: integer
-        expires_at:
-          type: string
-          format: date-time
-    UploadCreate:
-      type: object
-      properties:
-        name:
-          type: string
-        size:
-          type: integer
-    FolderCreate:
-      type: object
-      required:
-      - name
-      properties:
-        name:
-          type: string
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-        message:
-          type: string
     Upload:
       type: object
       properties:
@@ -261,18 +255,6 @@ components:
           type: string
           description: Direct URL to PUT/POST the video file to.
         expires_at:
-          type: string
-          format: date-time
-    Folder:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        item_count:
-          type: integer
-        created_at:
           type: string
           format: date-time
     Video:
@@ -301,35 +283,53 @@ components:
         created_at:
           type: string
           format: date-time
-  parameters:
-    StreamId:
-      name: stream_id
-      in: path
-      required: true
-      description: The unique identifier of the stream.
-      schema:
-        type: string
-    RecordingId:
-      name: recording_id
-      in: path
-      required: true
-      description: The unique identifier of the temporary recording.
-      schema:
-        type: string
-    ContentId:
-      name: content_id
-      in: path
-      required: true
-      description: The unique identifier of the content item.
-      schema:
-        type: string
-    FolderId:
-      name: folder_id
-      in: path
-      required: true
-      description: The unique identifier of the video folder.
-      schema:
-        type: string
+    Recording:
+      type: object
+      properties:
+        id:
+          type: string
+        stream_id:
+          type: string
+        status:
+          type: string
+        duration:
+          type: integer
+        expires_at:
+          type: string
+          format: date-time
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+    FolderCreate:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+    UploadCreate:
+      type: object
+      properties:
+        name:
+          type: string
+        size:
+          type: integer
+    Folder:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        item_count:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
   responses:
     NotFound:
       description: The requested resource was not found.

@@ -127,14 +127,6 @@ components:
           type: string
         message:
           type: string
-  parameters:
-    WebhookId:
-      name: webhook_id
-      in: path
-      required: true
-      description: The unique identifier of the webhook endpoint.
-      schema:
-        type: string
   responses:
     NotFound:
       description: The requested resource was not found.
@@ -148,6 +140,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+  parameters:
+    WebhookId:
+      name: webhook_id
+      in: path
+      required: true
+      description: The unique identifier of the webhook endpoint.
+      schema:
+        type: string
   securitySchemes:
     apiToken:
       type: apiKey

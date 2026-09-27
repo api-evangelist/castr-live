@@ -183,19 +183,66 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  parameters:
+    StreamId:
+      name: stream_id
+      in: path
+      required: true
+      description: The unique identifier of the stream.
+      schema:
+        type: string
+    PlatformId:
+      name: platform_id
+      in: path
+      required: true
+      description: The unique identifier of the platform destination.
+      schema:
+        type: string
+  responses:
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    LiveStreamCreate:
+    PlatformCreate:
       type: object
       required:
-      - name
+      - type
       properties:
+        type:
+          type: string
         name:
+          type: string
+        rtmp_url:
+          type: string
+        stream_key:
           type: string
         enabled:
           type: boolean
-        record:
+    Platform:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          description: Destination type (e.g. youtube, facebook, custom_rtmp).
+        name:
+          type: string
+        rtmp_url:
+          type: string
+        stream_key:
+          type: string
+        enabled:
           type: boolean
-          description: Enable cloud recording of the stream.
     Error:
       type: object
       properties:
@@ -203,6 +250,15 @@ components:
           type: string
         message:
           type: string
+    LiveStreamUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        enabled:
+          type: boolean
+        record:
+          type: boolean
     LiveStream:
       type: object
       properties:
@@ -235,39 +291,10 @@ components:
         created_at:
           type: string
           format: date-time
-    Platform:
-      type: object
-      properties:
-        id:
-          type: string
-        type:
-          type: string
-          description: Destination type (e.g. youtube, facebook, custom_rtmp).
-        name:
-          type: string
-        rtmp_url:
-          type: string
-        stream_key:
-          type: string
-        enabled:
-          type: boolean
-    PlatformCreate:
+    LiveStreamCreate:
       type: object
       required:
-      - type
-      properties:
-        type:
-          type: string
-        name:
-          type: string
-        rtmp_url:
-          type: string
-        stream_key:
-          type: string
-        enabled:
-          type: boolean
-    LiveStreamUpdate:
-      type: object
+      - name
       properties:
         name:
           type: string
@@ -275,34 +302,7 @@ components:
           type: boolean
         record:
           type: boolean
-  parameters:
-    StreamId:
-      name: stream_id
-      in: path
-      required: true
-      description: The unique identifier of the stream.
-      schema:
-        type: string
-    PlatformId:
-      name: platform_id
-      in: path
-      required: true
-      description: The unique identifier of the platform destination.
-      schema:
-        type: string
-  responses:
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid API token.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+          description: Enable cloud recording of the stream.
   securitySchemes:
     apiToken:
       type: apiKey

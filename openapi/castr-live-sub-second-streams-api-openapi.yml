@@ -113,6 +113,19 @@ components:
       description: The unique identifier of the stream.
       schema:
         type: string
+  responses:
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
     Error:
       type: object
@@ -121,6 +134,15 @@ components:
           type: string
         message:
           type: string
+    SubSecondStreamCreate:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+        enabled:
+          type: boolean
     SubSecondStream:
       type: object
       properties:
@@ -144,28 +166,6 @@ components:
               type: string
             embed_url:
               type: string
-    SubSecondStreamCreate:
-      type: object
-      required:
-      - name
-      properties:
-        name:
-          type: string
-        enabled:
-          type: boolean
-  responses:
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid API token.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   securitySchemes:
     apiToken:
       type: apiKey
