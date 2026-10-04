@@ -189,6 +189,9 @@ apis:
   - type: Documentation
     url: https://developers.castr.com/docs/create-a-livestream-pu
 common:
+- type: CapabilityMap
+  url: capabilities/castr-live-capability-edges.yml
+  name: Castr Business Capability Map
 - type: AgenticAccess
   url: agentic-access/castr-live-agentic-access.yml
 - type: DomainSecurity
