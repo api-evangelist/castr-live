@@ -91,19 +91,32 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   responses:
-    Unauthorized:
-      description: Missing or invalid API token.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     NotFound:
       description: The requested resource was not found.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
+    WebhookEndpointCreate:
+      type: object
+      required:
+      - url
+      properties:
+        url:
+          type: string
+        events:
+          type: array
+          items:
+            type: string
+        enabled:
+          type: boolean
     WebhookEndpoint:
       type: object
       properties:
@@ -120,19 +133,6 @@ components:
         created_at:
           type: string
           format: date-time
-    WebhookEndpointCreate:
-      type: object
-      required:
-      - url
-      properties:
-        url:
-          type: string
-        events:
-          type: array
-          items:
-            type: string
-        enabled:
-          type: boolean
     Error:
       type: object
       properties:

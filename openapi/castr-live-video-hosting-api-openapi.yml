@@ -216,7 +216,43 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  parameters:
+    FolderId:
+      name: folder_id
+      in: path
+      required: true
+      description: The unique identifier of the video folder.
+      schema:
+        type: string
+    ContentId:
+      name: content_id
+      in: path
+      required: true
+      description: The unique identifier of the content item.
+      schema:
+        type: string
+    RecordingId:
+      name: recording_id
+      in: path
+      required: true
+      description: The unique identifier of the temporary recording.
+      schema:
+        type: string
+    StreamId:
+      name: stream_id
+      in: path
+      required: true
+      description: The unique identifier of the stream.
+      schema:
+        type: string
   schemas:
+    FolderCreate:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
     Folder:
       type: object
       properties:
@@ -227,6 +263,20 @@ components:
         item_count:
           type: integer
         created_at:
+          type: string
+          format: date-time
+    Recording:
+      type: object
+      properties:
+        id:
+          type: string
+        stream_id:
+          type: string
+        status:
+          type: string
+        duration:
+          type: integer
+        expires_at:
           type: string
           format: date-time
     Video:
@@ -255,13 +305,6 @@ components:
         created_at:
           type: string
           format: date-time
-    FolderCreate:
-      type: object
-      required:
-      - name
-      properties:
-        name:
-          type: string
     Upload:
       type: object
       properties:
@@ -270,20 +313,6 @@ components:
         upload_url:
           type: string
           description: Direct URL to PUT/POST the video file to.
-        expires_at:
-          type: string
-          format: date-time
-    Recording:
-      type: object
-      properties:
-        id:
-          type: string
-        stream_id:
-          type: string
-        status:
-          type: string
-        duration:
-          type: integer
         expires_at:
           type: string
           format: date-time
@@ -301,44 +330,15 @@ components:
           type: string
         message:
           type: string
-  parameters:
-    StreamId:
-      name: stream_id
-      in: path
-      required: true
-      description: The unique identifier of the stream.
-      schema:
-        type: string
-    RecordingId:
-      name: recording_id
-      in: path
-      required: true
-      description: The unique identifier of the temporary recording.
-      schema:
-        type: string
-    ContentId:
-      name: content_id
-      in: path
-      required: true
-      description: The unique identifier of the content item.
-      schema:
-        type: string
-    FolderId:
-      name: folder_id
-      in: path
-      required: true
-      description: The unique identifier of the video folder.
-      schema:
-        type: string
   responses:
-    Unauthorized:
-      description: Missing or invalid API token.
+    NotFound:
+      description: The requested resource was not found.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
+    Unauthorized:
+      description: Missing or invalid API token.
       content:
         application/json:
           schema:

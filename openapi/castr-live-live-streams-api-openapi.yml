@@ -184,6 +184,21 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
+    PlatformCreate:
+      type: object
+      required:
+      - type
+      properties:
+        type:
+          type: string
+        name:
+          type: string
+        rtmp_url:
+          type: string
+        stream_key:
+          type: string
+        enabled:
+          type: boolean
     Platform:
       type: object
       properties:
@@ -199,6 +214,15 @@ components:
         stream_key:
           type: string
         enabled:
+          type: boolean
+    LiveStreamUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        enabled:
+          type: boolean
+        record:
           type: boolean
     LiveStreamCreate:
       type: object
@@ -244,30 +268,6 @@ components:
         created_at:
           type: string
           format: date-time
-    LiveStreamUpdate:
-      type: object
-      properties:
-        name:
-          type: string
-        enabled:
-          type: boolean
-        record:
-          type: boolean
-    PlatformCreate:
-      type: object
-      required:
-      - type
-      properties:
-        type:
-          type: string
-        name:
-          type: string
-        rtmp_url:
-          type: string
-        stream_key:
-          type: string
-        enabled:
-          type: boolean
     Error:
       type: object
       properties:
@@ -275,14 +275,20 @@ components:
           type: string
         message:
           type: string
+  responses:
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   parameters:
-    StreamId:
-      name: stream_id
-      in: path
-      required: true
-      description: The unique identifier of the stream.
-      schema:
-        type: string
     PlatformId:
       name: platform_id
       in: path
@@ -290,19 +296,13 @@ components:
       description: The unique identifier of the platform destination.
       schema:
         type: string
-  responses:
-    Unauthorized:
-      description: Missing or invalid API token.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    StreamId:
+      name: stream_id
+      in: path
+      required: true
+      description: The unique identifier of the stream.
+      schema:
+        type: string
   securitySchemes:
     apiToken:
       type: apiKey
