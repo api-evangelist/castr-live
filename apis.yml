@@ -63,7 +63,7 @@ tags_raw:
 - Analytics
 - Webhooks
 created: '2026-07-11'
-modified: '2026-07-11'
+modified: '2026-10-06'
 specificationVersion: '0.23'
 apis:
 - aid: castr-live:castr-live-analytics-api
@@ -189,6 +189,8 @@ apis:
   - type: Documentation
     url: https://developers.castr.com/docs/create-a-livestream-pu
 common:
+- url: https://castr.com/blog/feed.xml
+  type: BlogRSS
 - type: CapabilityMap
   url: capabilities/castr-live-capability-edges.yml
   name: Castr Business Capability Map
