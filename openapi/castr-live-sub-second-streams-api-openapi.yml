@@ -105,16 +105,20 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  responses:
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    SubSecondStreamCreate:
-      type: object
-      required:
-      - name
-      properties:
-        name:
-          type: string
-        enabled:
-          type: boolean
     SubSecondStream:
       type: object
       properties:
@@ -145,19 +149,15 @@ components:
           type: string
         message:
           type: string
-  responses:
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid API token.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    SubSecondStreamCreate:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+        enabled:
+          type: boolean
   parameters:
     StreamId:
       name: stream_id

@@ -216,53 +216,16 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  parameters:
-    FolderId:
-      name: folder_id
-      in: path
-      required: true
-      description: The unique identifier of the video folder.
-      schema:
-        type: string
-    ContentId:
-      name: content_id
-      in: path
-      required: true
-      description: The unique identifier of the content item.
-      schema:
-        type: string
-    RecordingId:
-      name: recording_id
-      in: path
-      required: true
-      description: The unique identifier of the temporary recording.
-      schema:
-        type: string
-    StreamId:
-      name: stream_id
-      in: path
-      required: true
-      description: The unique identifier of the stream.
-      schema:
-        type: string
   schemas:
-    FolderCreate:
-      type: object
-      required:
-      - name
-      properties:
-        name:
-          type: string
-    Folder:
+    Upload:
       type: object
       properties:
         id:
           type: string
-        name:
+        upload_url:
           type: string
-        item_count:
-          type: integer
-        created_at:
+          description: Direct URL to PUT/POST the video file to.
+        expires_at:
           type: string
           format: date-time
     Recording:
@@ -279,6 +242,25 @@ components:
         expires_at:
           type: string
           format: date-time
+    Folder:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        item_count:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+    UploadCreate:
+      type: object
+      properties:
+        name:
+          type: string
+        size:
+          type: integer
     Video:
       type: object
       properties:
@@ -305,24 +287,13 @@ components:
         created_at:
           type: string
           format: date-time
-    Upload:
+    FolderCreate:
       type: object
-      properties:
-        id:
-          type: string
-        upload_url:
-          type: string
-          description: Direct URL to PUT/POST the video file to.
-        expires_at:
-          type: string
-          format: date-time
-    UploadCreate:
-      type: object
+      required:
+      - name
       properties:
         name:
           type: string
-        size:
-          type: integer
     Error:
       type: object
       properties:
@@ -343,6 +314,35 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+  parameters:
+    ContentId:
+      name: content_id
+      in: path
+      required: true
+      description: The unique identifier of the content item.
+      schema:
+        type: string
+    FolderId:
+      name: folder_id
+      in: path
+      required: true
+      description: The unique identifier of the video folder.
+      schema:
+        type: string
+    RecordingId:
+      name: recording_id
+      in: path
+      required: true
+      description: The unique identifier of the temporary recording.
+      schema:
+        type: string
+    StreamId:
+      name: stream_id
+      in: path
+      required: true
+      description: The unique identifier of the stream.
+      schema:
+        type: string
   securitySchemes:
     apiToken:
       type: apiKey

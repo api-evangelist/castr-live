@@ -103,6 +103,13 @@ components:
           type: string
         viewers:
           type: integer
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
     ActivityEntry:
       type: object
       properties:
@@ -115,13 +122,6 @@ components:
         timestamp:
           type: string
           format: date-time
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-        message:
-          type: string
   parameters:
     StreamId:
       name: stream_id

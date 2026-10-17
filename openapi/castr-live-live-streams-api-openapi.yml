@@ -183,59 +183,35 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  responses:
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    PlatformId:
+      name: platform_id
+      in: path
+      required: true
+      description: The unique identifier of the platform destination.
+      schema:
+        type: string
+    StreamId:
+      name: stream_id
+      in: path
+      required: true
+      description: The unique identifier of the stream.
+      schema:
+        type: string
   schemas:
-    PlatformCreate:
-      type: object
-      required:
-      - type
-      properties:
-        type:
-          type: string
-        name:
-          type: string
-        rtmp_url:
-          type: string
-        stream_key:
-          type: string
-        enabled:
-          type: boolean
-    Platform:
-      type: object
-      properties:
-        id:
-          type: string
-        type:
-          type: string
-          description: Destination type (e.g. youtube, facebook, custom_rtmp).
-        name:
-          type: string
-        rtmp_url:
-          type: string
-        stream_key:
-          type: string
-        enabled:
-          type: boolean
-    LiveStreamUpdate:
-      type: object
-      properties:
-        name:
-          type: string
-        enabled:
-          type: boolean
-        record:
-          type: boolean
-    LiveStreamCreate:
-      type: object
-      required:
-      - name
-      properties:
-        name:
-          type: string
-        enabled:
-          type: boolean
-        record:
-          type: boolean
-          description: Enable cloud recording of the stream.
     LiveStream:
       type: object
       properties:
@@ -268,6 +244,34 @@ components:
         created_at:
           type: string
           format: date-time
+    LiveStreamCreate:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+        enabled:
+          type: boolean
+        record:
+          type: boolean
+          description: Enable cloud recording of the stream.
+    Platform:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          description: Destination type (e.g. youtube, facebook, custom_rtmp).
+        name:
+          type: string
+        rtmp_url:
+          type: string
+        stream_key:
+          type: string
+        enabled:
+          type: boolean
     Error:
       type: object
       properties:
@@ -275,34 +279,30 @@ components:
           type: string
         message:
           type: string
-  responses:
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid API token.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-  parameters:
-    PlatformId:
-      name: platform_id
-      in: path
-      required: true
-      description: The unique identifier of the platform destination.
-      schema:
-        type: string
-    StreamId:
-      name: stream_id
-      in: path
-      required: true
-      description: The unique identifier of the stream.
-      schema:
-        type: string
+    LiveStreamUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        enabled:
+          type: boolean
+        record:
+          type: boolean
+    PlatformCreate:
+      type: object
+      required:
+      - type
+      properties:
+        type:
+          type: string
+        name:
+          type: string
+        rtmp_url:
+          type: string
+        stream_key:
+          type: string
+        enabled:
+          type: boolean
   securitySchemes:
     apiToken:
       type: apiKey

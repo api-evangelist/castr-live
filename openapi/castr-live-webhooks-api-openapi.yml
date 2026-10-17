@@ -103,20 +103,15 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+  parameters:
+    WebhookId:
+      name: webhook_id
+      in: path
+      required: true
+      description: The unique identifier of the webhook endpoint.
+      schema:
+        type: string
   schemas:
-    WebhookEndpointCreate:
-      type: object
-      required:
-      - url
-      properties:
-        url:
-          type: string
-        events:
-          type: array
-          items:
-            type: string
-        enabled:
-          type: boolean
     WebhookEndpoint:
       type: object
       properties:
@@ -140,14 +135,19 @@ components:
           type: string
         message:
           type: string
-  parameters:
-    WebhookId:
-      name: webhook_id
-      in: path
-      required: true
-      description: The unique identifier of the webhook endpoint.
-      schema:
-        type: string
+    WebhookEndpointCreate:
+      type: object
+      required:
+      - url
+      properties:
+        url:
+          type: string
+        events:
+          type: array
+          items:
+            type: string
+        enabled:
+          type: boolean
   securitySchemes:
     apiToken:
       type: apiKey
