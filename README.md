@@ -1,4 +1,4 @@
-# Castr (castr-live)
+# Castr
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,94 +64,128 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Castr is a live video streaming, multistreaming, and video-hosting (VOD) platform. You ingest a single RTMP or SRT source and Castr restreams it to multiple destinations (YouTube, Facebook, custom RTMP, and more), records and clips live streams, hosts and delivers on-demand video, runs ultra-low-latency sub-second (WebRTC) streams, and embeds a player.
+Castr is a live video streaming and multistreaming platform with video hosting (VOD), that lets you ingest a single RTMP/SRT source and restream it to multiple destinations, record and clip live streams, host and deliver on-demand video, run ultra-low-latency sub-second (WebRTC) streams, and embed a player. Castr exposes a documented, self-serve REST API at https://api.castr.com/v2 for managing live streams and their platform destinations, sub-second streams, video hosting folders and uploads, live-to-VOD recordings, activity/analytics logs and events, and webhook endpoints. Requests are authenticated with an API token issued from the account settings and sent in an authorization header.
 
-Castr exposes a **documented, self-serve REST API** at `https://api.castr.com/v2`. You create a Castr account, generate an API token from the account settings API section (`https://castr.com/app/manage/api`), and send it in an `authorization` header. The API covers live streams and their multistream platform destinations, sub-second streams, video hosting folders and uploads, live-to-VOD recordings, activity logs/events and stream stats, and webhook endpoints.
+**Areas:** Live Streaming · Multistreaming · Video Hosting · VOD · Video · Restreaming · Sub-Second Streaming · WebRTC · Analytics · Webhook
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/castr-live/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/castr-live/refs/heads/main/apis.yml)
+## Castr on APIs.io
 
-## Access Model
+Everything profiled for Castr is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/castr-live/](https://apis.io/providers/castr-live/)** — or go straight to one of the APIs or properties below.
 
-- **Public and self-serve.** Anyone can sign up, get an API token from settings, and call the documented API. No sales contact or partner gating is required to read the reference or obtain a token.
-- **Included with a paid plan.** API access ships with Castr subscription plans (a free trial is offered). Concurrency, bandwidth, and storage scale with the tier rather than the API being locked behind an enterprise-only plan.
-- **Auth:** API token in an `authorization` header (confirmed by a published curl example). Base URL `https://api.castr.com/v2`; resource paths are snake_case (e.g. `/live_streams`).
+### APIs (5)
 
-## Modeling Note
+- [Castr Analytics API](https://apis.io/apis/castr-live/castr-live-analytics-api/) — Activity logs, activity events, and stream stats.
+- [Castr Live Streams API](https://apis.io/apis/castr-live/castr-live-live-streams-api/) — Live streams and their multistream platform destinations.
+- [Castr Sub-Second Streams API](https://apis.io/apis/castr-live/castr-live-sub-second-streams-api/) — Ultra-low-latency (WebRTC) live streams.
+- [Castr Video Hosting API](https://apis.io/apis/castr-live/castr-live-video-hosting-api/) — Video hosting folders, uploads, and live-to-VOD recordings.
+- [Castr Webhooks API](https://apis.io/apis/castr-live/castr-live-webhooks-api/) — Webhook endpoints for event delivery.
 
-Endpoint paths, methods, and resource groupings in this entry come from Castr's published developer reference and its machine index (`developers.castr.com`, including `llms.txt`). The request/response JSON schemas in the OpenAPI are **honestly modeled** from the documentation rather than copied from a Castr-published OpenAPI file, so property-level detail should be verified against the live reference (`endpointsModeled: true` in `review.yml`).
+### Published properties
 
-## Tags
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-- Live Streaming
-- Multistreaming
-- Video Hosting
-- VOD
-- Restreaming
-- Sub-Second Streaming
-- WebRTC
-- Analytics
-- Webhooks
+#### Agentic access (1)
 
-## Timestamps
+Which operations an agent can call, which act, and which need a human in the loop.
 
-- **Created:** 2026-07-11
-- **Modified:** 2026-07-11
+- [Castr Live Agentic Access](https://apis.io/agentic-access/castr-live/castr-live-agentic-access/)
 
-## APIs
+#### Collections (6)
 
-### Castr Live Streams API
+Postman and Open Collection request collections.
 
-Create, list, get, update, and delete live streams; retrieve stream stats and the live EPG; and manage the multistream platform destinations a stream restreams to. Streams ingest RTMP or SRT and fan out to multiple destinations and CDNs.
+- [Castr API](https://apis.io/collections/castr-live/open-castr-live/)
+- [Castr Analytics API](https://apis.io/collections/castr-live/open-castr-live-analytics-api/)
+- [Castr Analytics Live Streams API](https://apis.io/collections/castr-live/open-castr-live-live-streams-api/)
+- [Castr Analytics Sub-Second Streams API](https://apis.io/collections/castr-live/open-castr-live-sub-second-streams-api/)
+- [Castr Analytics Video Hosting API](https://apis.io/collections/castr-live/open-castr-live-video-hosting-api/)
+- [Castr Analytics Webhooks API](https://apis.io/collections/castr-live/open-castr-live-webhooks-api/)
 
-- **Human URL:** [https://developers.castr.com/reference/get_v2-live-streams](https://developers.castr.com/reference/get_v2-live-streams)
-- **Base URL:** `https://api.castr.com/v2`
+#### Security (2)
 
-### Castr Sub-Second Streams API
+Authentication, trust centre, and vulnerability disclosure.
 
-Create, list, get, update, and delete sub-second (ultra-low-latency, WebRTC-based) streams for interactive and real-time use cases where standard HLS latency is too high.
+- [Castr Live Authentication](https://apis.io/security/castr-live/castr-live-authentication/)
+- [Castr Live Domain Security](https://apis.io/security/castr-live/castr-live-domain-security/)
 
-- **Human URL:** [https://developers.castr.com/docs/create-sub-second-streams](https://developers.castr.com/docs/create-sub-second-streams)
-- **Base URL:** `https://api.castr.com/v2`
+#### Plans and pricing (1)
 
-### Castr Video Hosting and VOD API
+Published plans, tiers and prices.
 
-Manage video hosting folders and contents, create direct upload URLs for on-demand videos, retrieve temporary live-stream recordings, and convert live recordings into permanent VOD assets (Live-to-VOD).
+- [Castr Live Plans Pricing](https://apis.io/plans/castr-live/castr-live-plans-pricing/)
 
-- **Human URL:** [https://developers.castr.com/docs/post-a-video](https://developers.castr.com/docs/post-a-video)
-- **Base URL:** `https://api.castr.com/v2`
+#### Rate limits (1)
 
-### Castr Analytics and Activity API
+Published request limits.
 
-Retrieve activity logs and events for a stream or video and pull per-stream stats (online status, duration, bitrate, codec, viewers) for real-time monitoring.
+- [Castr Live Rate Limits](https://apis.io/rate-limits/castr-live/castr-live-rate-limits/)
 
-- **Human URL:** [https://developers.castr.com/docs/create-a-livestream-pu](https://developers.castr.com/docs/create-a-livestream-pu)
-- **Base URL:** `https://api.castr.com/v2`
+#### FinOps (1)
 
-### Castr Webhooks API
+What the API costs to run, by operation.
 
-Register, list, update, and delete webhook endpoints so Castr can push stream and video lifecycle events (online/offline, recording ready, upload complete) to your own systems.
+- [Castr Live Finops](https://apis.io/finops/castr-live/castr-live-finops/)
 
-- **Human URL:** [https://developers.castr.com/reference](https://developers.castr.com/reference)
-- **Base URL:** `https://api.castr.com/v2`
+## Where to find this API
 
-## WebSocket Review
-
-Castr does **not** expose a documented public WebSocket API. Its own API is request/response REST, and push-style event delivery to developers is via outbound HTTP **webhooks**, not WebSocket. The realtime media transports — RTMP/SRT ingest, HLS/WebRTC delivery, and RTMP restreaming — are media protocols, not a subscribe-style WebSocket API, so no AsyncAPI document was created. See [review.yml](review.yml).
-
-## Common Properties
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
 - [Website](https://castr.com)
-- [LinkedIn](https://www.linkedin.com/company/castr-live)
 - [Documentation](https://developers.castr.com/docs/getting-started)
-- [API Reference](https://developers.castr.com/reference/get_v2-live-streams)
-- [Sign Up / API Keys](https://castr.com/app/manage/api)
+- [API reference](https://developers.castr.com/reference/get_v2-live-streams)
 - [Pricing](https://castr.com/pricing/)
-- [Plans](plans/castr-live-plans-pricing.yml)
-- [Rate Limits](rate-limits/castr-live-rate-limits.yml)
-- [Fin Ops](finops/castr-live-finops.yml)
+- [Sign up](https://castr.com/app/manage/api)
 - [Blog](https://castr.com/blog/)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 30.2** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 66.1 |
+| Contract quality | 50.7 |
+| Contract governance | 0.0 |
+| Operational transparency | 7.9 |
+| Developer ergonomics | 23.8 |
+| Access clarity | 31.6 |
+
+**Agent readiness 17.9** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | — |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 11.8** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/castr-live/](https://apis.io/providers/castr-live/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Castr: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/castr-live/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
